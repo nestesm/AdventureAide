@@ -33,6 +33,6 @@ services:
       - "MONGO_INITDB_ROOT_PASSWORD=${MONGO_PASS}"
     command:
       mongod --quiet --logpath /dev/null
-
+ 
 volumes:
   opt:
