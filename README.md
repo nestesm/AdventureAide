@@ -11,4 +11,4 @@ docker compose up -d
 
 ```
 
-The application backend is available at http://localhost:9898/docs 
+The application backend is available at http://localhost:8989/api/docs 
