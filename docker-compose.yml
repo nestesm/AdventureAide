@@ -7,15 +7,15 @@ services:
       dockerfile: Dockerfile
     env_file:
       - .env
-    command: bash -c "
-      cd backend &&
+    command: bash -c " 
+      cd src &&
       uvicorn run:app
       --host 0.0.0.0 --port 8989
       --lifespan=on --use-colors --loop uvloop --http httptools
       --reload
       "
     volumes:
-      - .:/opt
+      - backend_volume:/opt
     ports:
       - "8989:8989"
     depends_on:
@@ -33,6 +33,8 @@ services:
       - "MONGO_INITDB_ROOT_PASSWORD=${MONGO_PASS}"
     command:
       mongod --quiet --logpath /dev/null
+    volumes:
+      - mongodb_volume:/data/db
 
   nginx:
     image: nginx:latest
@@ -45,4 +47,6 @@ services:
       - mongodb
       - backend
       
- 
+volumes:
+  backend_volume:
+  mongodb_volume:
