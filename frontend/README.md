@@ -7,7 +7,7 @@ npm i
 ```js
 npm run start
 ```
-#### Your project will be on [http://localhost:3000/]
+#### Your project will be on http://localhost:3000/
 
 # More
 ## This webpack5 configuration will allow you to use the following core technology stack:
