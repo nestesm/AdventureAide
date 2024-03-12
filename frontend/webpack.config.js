@@ -50,7 +50,7 @@ module.exports = {
     target,
     plugins,
     devtool: mode === 'source-map',
-    entry: './src/index.tsx',
+    entry: './src/index.jsx',
 
     devServer: {
         port: port ?? 3000,
@@ -72,35 +72,14 @@ module.exports = {
             {
                 test: /\.(html)$/, use: ['html-loader']
             },
-            //loading css
             {
-                test: /\.css$/,
-                use: cssLoader(),
-                exclude: /\.module\.css$/
+                test: /\.(js|jsx)$/,
+                exclude: /node_modules/,
+                use: 'babel-loader',
             },
-            //Loading scss/sass
             {
-                test: /\.s?css$/,
-                oneOf: [
-                    {//add scss modules
-                        test: /\.module\.s?css$/,
-                        use: [
-                            MiniCssExtractPlugin.loader,
-                            {
-                                loader: "css-loader",
-                                options: {
-                                    modules: {
-                                        localIdentName: mode === 'development' ? "[name]__[local]" : "[hash]",
-                                    },
-                                }
-                            },
-                            "sass-loader"
-                        ]
-                    },
-                    {
-                        use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"]
-                    }
-                ]
+                test: /\.css$/i,
+                use: ['style-loader', 'css-loader', 'postcss-loader'],
             },
             {
                 test: /\.(png|jpe?g|gif|svg|webp|ico)$/i,
@@ -110,19 +89,13 @@ module.exports = {
                 test: /\.(woff2?|eot|ttf|otf)$/i,
                 type: 'asset/resource',
             },
-            {
-                test: /\.ts(x?)$/,
-                use: [
-                    'ts-loader',
-                ],
-                exclude: /node_modules/,
-            },
         ],
     },
     resolve: {
         extensions: ['.js', '.ts', '.tsx','.scss','.module.scss','.css','.png'],
         alias: {
-            '@': path.resolve(__dirname,'src')
-        }
+            '@components': path.resolve(__dirname, 'src/components'),
+            '@utils': path.resolve(__dirname, 'src/utils'),
+        },
     },
 };
