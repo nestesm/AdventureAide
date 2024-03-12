@@ -22,7 +22,9 @@ services:
       - mongodb
 
   mongodb:
-    image: mongo:latest
+    build:
+      context: ./mongo
+      dockerfile: Dockerfile
     env_file:
       - .env
     ports:
