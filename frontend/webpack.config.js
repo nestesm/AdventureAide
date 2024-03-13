@@ -15,22 +15,7 @@ if (process.argv[4] !== 'development') {
 console.log("!!!mode =", process.argv[4]);
 
 
-const cssLoader = (extra) => {
-    const loaders = [
-        {
-            loader: MiniCssExtractPlugin.loader,
-            options: {
-                //hmr: mode === 'development',
-                // reloadAll: true,
-                filename: '[name].[contenthash].css'
-            }
-        },'css-loader',
-    ]
-    if(extra) {
-        loaders.push(extra);
-    }
-    return loaders;
-}
+//
 
 const plugins = [
     new MiniCssExtractPlugin({
@@ -96,6 +81,7 @@ module.exports = {
         alias: {
             '@components': path.resolve(__dirname, 'src/components'),
             '@utils': path.resolve(__dirname, 'src/utils'),
+            '@assets': path.resolve(__dirname, 'src/assets'),
         },
     },
 };

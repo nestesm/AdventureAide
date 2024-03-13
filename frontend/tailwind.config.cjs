@@ -5,7 +5,12 @@ module.exports = {
       colors: {
         primary: '#1B73E8',
       },
+      borderRadius: {
+        'none': '0',
+        'large': '12px',
+      }
     },
+
   },
   plugins: [],
 };
