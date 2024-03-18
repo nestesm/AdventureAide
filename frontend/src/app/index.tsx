@@ -1,6 +1,6 @@
-import Main from "@/pages/main/ui/main";
 import {render} from "react-dom";
 import './index.css'
+import {AppRoutes} from "@app/routes";
 
 const rootElement = document.getElementById("root");
-render(<Main/>, rootElement);
+render(<AppRoutes/>, rootElement);

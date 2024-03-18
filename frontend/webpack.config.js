@@ -125,6 +125,13 @@ module.exports = {
         extensions: ['.js', '.ts', '.tsx', '.scss', '.module.scss', '.css', '.png'],
         alias: {
             '@': path.resolve(__dirname, 'src'),
+            '@shared': path.resolve(__dirname, 'src/shared'),
+            '@entities': path.resolve(__dirname, 'src/entities'),
+            '@features': path.resolve(__dirname, 'src/features'),
+            '@pages': path.resolve(__dirname, 'src/pages'),
+            '@processes': path.resolve(__dirname, 'src/processes'),
+            '@widgets': path.resolve(__dirname, 'src/widgets'),
+            '@app': path.resolve(__dirname, 'src/app')
         },
     },
     optimization: {
