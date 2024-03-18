@@ -1,15 +1,10 @@
-# Quick start
-### 1. Installing dependencies
-```js
-npm i
-```
-### 2. run dev build
-```js
-npm run start
-```
-#### Your project will be on http://localhost:3000/
+Hi! 
+## Initially, a project was made according to [this article](https://habr.com/ru/articles/597389/), and also described in [this repository](https://github.com/eadenink/webpack-5-react-config) and [this](https://github.com/DENISmer/webpack5-react-config), but the configuration described in these links did not suit me for several reasons:
 
-# More
+1. no TS support.
+1. no support for scss modules.
+1. and etc.
+
 ## This webpack5 configuration will allow you to use the following core technology stack:
 1. React
 1. TS
@@ -20,7 +15,17 @@ npm run start
 (png|jpe?g|gif|svg|webp|ico) and (woff2?|eot|ttf|otf)
 1. and etc.
 
-## all available commands
+## All you need to use this config:
+
+1. clone this repository
+```
+git clone https://github.com/DENISmer/webpack5-react-ts-config
+```
+2. installing dependencies
+```
+npm install
+```
+3. run the required script:
 ```js
     "start": "cross-env SERVE=true webpack serve --mode development" // run dev-server
     "build": "webpack" // simple build

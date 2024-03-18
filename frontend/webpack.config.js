@@ -2,31 +2,47 @@ const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
+const tailwindcss = require('tailwindcss');
+const autoprefixer = require('autoprefixer');
 
-let mode = 'development';
-let port = process.env.port;
+let mode = process.env.NODE_ENV || 'development';
+let port = process.env.PORT || 3000;
 let target = 'web';
 
-if (process.argv[4] !== 'development') {
-    mode = 'production';
-    target = 'browserslist';
-}
+const isDevelopment = mode === 'development';
 
-console.log("!!!mode =", process.argv[4]);
-
-
-//
+const cssLoader = (extra) => {
+    const loaders = [
+        isDevelopment ? 'style-loader' : MiniCssExtractPlugin.loader,
+        'css-loader',
+        {
+            loader: 'postcss-loader',
+            options: {
+                postcssOptions: {
+                    plugins: [tailwindcss, autoprefixer],
+                },
+            },
+        },
+    ];
+    if (extra) {
+        loaders.push(extra);
+    }
+    return loaders;
+};
 
 const plugins = [
     new MiniCssExtractPlugin({
-        filename: mode === 'production' ? "[name].[contenthash].css" : "[name].css"
+        filename: isDevelopment ? '[name].css' : '[name].[contenthash].css',
+        chunkFilename: isDevelopment ? '[id].css' : '[id].[contenthash].css',
     }),
     new HtmlWebpackPlugin({
         template: './src/index.html',
     }),
 ];
 
-if (process.env.SERVE) {
+if (isDevelopment) {
     plugins.push(new ReactRefreshWebpackPlugin());
 }
 
@@ -34,54 +50,95 @@ module.exports = {
     mode,
     target,
     plugins,
-    devtool: mode === 'source-map',
-    entry: './src/index.jsx',
+    devtool: isDevelopment ? 'source-map' : false,
+    entry: './src/app/index.tsx',
 
     devServer: {
-        port: port ?? 3000,
-        open : true,
+        port,
+        open: true,
         historyApiFallback: true,
-        static: './build',
-        hot: mode === 'development',
+        static: path.join(__dirname, 'build'), // Изменение пути для devServer
+        hot: isDevelopment,
     },
 
     output: {
         path: path.resolve(__dirname, 'build'),
-        filename: "[name].[contenthash].js",
+        filename: isDevelopment ? '[name].js' : '[name].[contenthash].js',
         assetModuleFilename: 'assets/[name][hash][ext][query]',
         clean: true,
-        publicPath: '/'
+        publicPath: '/',
     },
     module: {
         rules: [
             {
-                test: /\.(html)$/, use: ['html-loader']
+                test: /\.(html)$/,
+                use: ['html-loader'],
             },
             {
-                test: /\.(js|jsx)$/,
-                exclude: /node_modules/,
-                use: 'babel-loader',
+                test: /\.css$/,
+                use: cssLoader(),
+                exclude: /\.module\.css$/,
             },
             {
-                test: /\.css$/i,
-                use: ['style-loader', 'css-loader', 'postcss-loader'],
+                test: /\.module\.css$/,
+                use: cssLoader({
+                    loader: 'css-loader',
+                    options: {
+                        modules: {
+                            localIdentName: isDevelopment ? '[name]__[local]' : '[hash]',
+                        },
+                    },
+                }),
+            },
+            {
+                test: /\.module\.scss$/,
+                use: [
+                    isDevelopment ? 'style-loader' : MiniCssExtractPlugin.loader,
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            modules: {
+                                localIdentName: isDevelopment ? '[name]__[local]' : '[hash]',
+                            },
+                        },
+                    },
+                    'postcss-loader', // добавлено для автопрефиксов
+                    'sass-loader',
+                ],
             },
             {
                 test: /\.(png|jpe?g|gif|svg|webp|ico)$/i,
-                type: mode === 'production' ? 'asset' : 'asset/resource',
+                type: 'asset',
             },
             {
                 test: /\.(woff2?|eot|ttf|otf)$/i,
                 type: 'asset/resource',
             },
+            {
+                test: /\.ts(x?)$/,
+                use: ['ts-loader'],
+                exclude: /node_modules/,
+            },
         ],
     },
     resolve: {
-        extensions: ['.js', '.ts', '.tsx','.scss','.module.scss','.css','.png'],
+        extensions: ['.js', '.ts', '.tsx', '.scss', '.module.scss', '.css', '.png'],
         alias: {
-            '@components': path.resolve(__dirname, 'src/components'),
-            '@utils': path.resolve(__dirname, 'src/utils'),
-            '@assets': path.resolve(__dirname, 'src/assets'),
+            '@': path.resolve(__dirname, 'src'),
         },
+    },
+    optimization: {
+        minimize: !isDevelopment,
+        minimizer: [
+            new CssMinimizerPlugin(),
+            new TerserPlugin({
+                terserOptions: {
+                    format: {
+                        comments: false,
+                    },
+                },
+                extractComments: false,
+            }),
+        ],
     },
 };
