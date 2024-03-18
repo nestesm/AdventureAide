@@ -14,8 +14,8 @@ npm run start
 1. React
 1. TS
 1. CSS
-1. SCSS
-1. SCSS modules
+1. tailwind
+1. FSD 
 1. support for the following file extensions:
 (png|jpe?g|gif|svg|webp|ico) and (woff2?|eot|ttf|otf)
 1. and etc.
