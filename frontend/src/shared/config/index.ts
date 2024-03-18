@@ -1,0 +1,1 @@
+//index of shred/config
