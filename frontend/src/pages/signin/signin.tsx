@@ -14,7 +14,7 @@ export const SignIn = () => {
                     <div className={`title-block`}>
                         TravelEasy!
                     </div>
-                    <AuthPanel />
+                    <AuthPanel typeOfBlock={'SIGN IN'}/>
                 </div>
             </>
         )

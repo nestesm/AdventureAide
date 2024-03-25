@@ -1,8 +1,8 @@
 import SplashBg from "@shared/assets/background/SplashPage.png";
-import {AuthPanel} from "@widgets/auth-panel/ui/auth-panel";
 import React from "react";
+import {AuthPanel} from "@widgets/auth-panel/ui/auth-panel";
 
-export const SplashPage = () => {
+export const SignUp = () => {
 
     return (
         <>

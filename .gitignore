@@ -5,3 +5,7 @@ venv/
 
 .env
 .DS_Store
+/.idea/.gitignore
+/.idea/AdventureAide.iml
+/.idea/modules.xml
+/.idea/vcs.xml
