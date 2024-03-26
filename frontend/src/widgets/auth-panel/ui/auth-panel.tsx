@@ -14,11 +14,11 @@ export const AuthPanel: React.FC<AuthTypes> = ({typeOfBlock}) => {
                 <AuthBlock>
                     <header className={'text-2xl text-white font-bold mb-7'}>{typeOfBlock}</header>
 
-                    <DefaultInput theme={'email'}/>
+                    <DefaultInput theme={'Email'}/>
                     <PasswordBlock />
-                    <SubmitButton />
+                    <SubmitButton text={typeOfBlock}/>
 
-                    <a href="" className={'text-blue-600 hover:text-purple-700 mt-2'}>
+                    <a href="/recovery" className={'text-blue-600 hover:text-purple-700 mt-2'}>
                         Forgot password?
                     </a>
 
@@ -32,10 +32,10 @@ export const AuthPanel: React.FC<AuthTypes> = ({typeOfBlock}) => {
                 <AuthBlock>
                     <header className={'text-2xl text-white font-bold mb-7'}>{typeOfBlock}</header>
 
-                    <DefaultInput theme={'email'}/>
-                    <DefaultInput theme={'text'} />
+                    <DefaultInput theme={'Email'}/>
+                    <DefaultInput theme={'Full name'} />
                     <PasswordBlock />
-                    <SubmitButton />
+                    <SubmitButton text={typeOfBlock}/>
 
                     <a href="/signin" className={'text-blue-600 hover:text-purple-700 mt-2'}>
                         Already have an account?
@@ -47,16 +47,33 @@ export const AuthPanel: React.FC<AuthTypes> = ({typeOfBlock}) => {
                 <AuthBlock>
                     <header className={'text-2xl text-white font-bold mb-7'}>{typeOfBlock}</header>
 
-                    {/*<DefaultInput theme={'From'}/>*/}
-                    {/*<DefaultInput theme={'To'} />*/}
+                    <DefaultInput theme={'From'}/>
+                    <DefaultInput theme={'To'} />
 
-                    <SubmitButton />
-
-                    <a href="/signin" className={'text-blue-600 hover:text-purple-700 mt-2'}>
-                        Already have an account?
-                    </a>
+                    <SubmitButton text={typeOfBlock}/>
                 </AuthBlock>
-            )
+            );
+        case "RECOVER":
+            return (
+                <AuthBlock>
+                    <header className={'text-2xl text-white font-bold mb-7'}>{typeOfBlock}</header>
+
+                    <DefaultInput theme={'Email'}/>
+
+                    <SubmitButton text={typeOfBlock}/>
+                </AuthBlock>
+            );
+        default :
+            return (
+                <AuthBlock>
+                    <header className={'text-2xl text-white font-bold mb-7'}>{typeOfBlock}</header>
+
+                    <DefaultInput theme={'From'}/>
+                    <DefaultInput theme={'To'} />
+
+                    <SubmitButton text={typeOfBlock}/>
+                </AuthBlock>
+            );
     }
 
     // return (

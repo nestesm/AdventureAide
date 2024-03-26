@@ -6,7 +6,7 @@ import {SplashPage} from "@pages/splash-page/ui/splash-page";
 import {SignIn} from "@pages/signin/signin";
 import {BrowserRouter} from "react-router-dom";
 import {SignUp} from "@pages/signup/signup";
-import Main from "@pages/main/ui/main";
+import {PasswordRecovery} from "@pages/password-recovery/password-recovery";
 
 export const AppRoutes = () => {
     return (
@@ -15,7 +15,7 @@ export const AppRoutes = () => {
                 <Route path="/">
                     <Route index element={
                         <React.Suspense fallback={<GlobalPreloader />}>
-                            <Main />
+                            <SplashPage />
                         </React.Suspense>
                     } />
                     <Route
@@ -23,6 +23,14 @@ export const AppRoutes = () => {
                         element={
                             <React.Suspense fallback={<GlobalPreloader />}>
                                 <SplashPage />
+                            </React.Suspense>
+                        }
+                    />
+                    <Route
+                        path={'recovery'}
+                        element={
+                            <React.Suspense fallback={<GlobalPreloader />}>
+                                <PasswordRecovery />
                             </React.Suspense>
                         }
                     />

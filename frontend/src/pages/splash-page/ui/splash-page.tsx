@@ -14,7 +14,7 @@ export const SplashPage = () => {
                 <div className={`title-block`}>
                     TravelEasy!
                 </div>
-                <AuthPanel typeOfBlock={'SIGN UP'}/>
+                <AuthPanel typeOfBlock={'TRY YOURSELF'}/>
             </div>
         </>
     )
