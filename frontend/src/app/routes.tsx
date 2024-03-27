@@ -1,14 +1,18 @@
-import React from "react";
+import React, {lazy} from "react";
 import {Route, Routes} from "react-router";
 import {NotFound} from "@pages/not-found/not-found-page";
 import {GlobalPreloader} from "@pages/global-preloader/global-preloader";
-import {SplashPage} from "@pages/splash-page/ui/splash-page";
-import {SignIn} from "@pages/signin/signin";
 import {BrowserRouter} from "react-router-dom";
-import {SignUp} from "@pages/signup/signup";
-import {PasswordRecovery} from "@pages/password-recovery/password-recovery";
+
+const SignUp = lazy(() => import('@pages/signup/signup'))
+const SignIn = lazy(() => import('@pages/signin/signin'))
+const SplashPage = lazy(() => import('@pages/splash-page/ui/splash-page'))
+const PasswordRecovery = lazy(() => import('@pages/password-recovery/password-recovery'))
 
 export const AppRoutes = () => {
+
+
+
     return (
         <BrowserRouter>
             <Routes>

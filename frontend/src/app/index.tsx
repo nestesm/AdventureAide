@@ -1,6 +1,6 @@
 import {render} from "react-dom";
 import './index.css'
-import {AppRoutes} from "@app/routes";
+import {ReduxProvider} from "@app/store";
 
 const rootElement = document.getElementById("root");
-render(<AppRoutes/>, rootElement);
+render(<ReduxProvider />, rootElement);

@@ -75,18 +75,4 @@ export const AuthPanel: React.FC<AuthTypes> = ({typeOfBlock}) => {
                 </AuthBlock>
             );
     }
-
-    // return (
-    //     <AuthBlock>
-    //             <header className={'text-2xl text-white font-bold mb-7'}>{typeOfBlock}</header>
-    //
-    //             <DefaultInput theme={'email'}/>
-    //             <PasswordBlock />
-    //             <SubmitButton />
-    //
-    //             <a href="" className={'text-blue-600 hover:text-purple-700 mt-2'}>
-    //                 forgot password?
-    //             </a>
-    //     </AuthBlock>
-    // )
 }

@@ -2,7 +2,7 @@ import SplashBg from "@shared/assets/background/SplashPage.png";
 import {AuthPanel} from "@widgets/auth-panel/ui/auth-panel";
 import React from "react";
 
-export const SplashPage = () => {
+const SplashPage = () => {
 
     return (
         <>
@@ -19,3 +19,5 @@ export const SplashPage = () => {
         </>
     )
 }
+
+export default SplashPage

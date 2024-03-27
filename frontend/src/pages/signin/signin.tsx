@@ -2,7 +2,7 @@ import SplashBg from "@shared/assets/background/SplashPage.png";
 import React from "react";
 import {AuthPanel} from "@widgets/auth-panel/ui/auth-panel";
 
-export const SignIn = () => {
+const SignIn = () => {
 
         return (
             <>
@@ -19,3 +19,4 @@ export const SignIn = () => {
             </>
         )
 }
+export default SignIn
