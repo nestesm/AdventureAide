@@ -3,6 +3,7 @@ import {Route, Routes} from "react-router";
 import {NotFound} from "@pages/not-found/not-found-page";
 import {GlobalPreloader} from "@pages/global-preloader/global-preloader";
 import {BrowserRouter} from "react-router-dom";
+import {ReadyRoutePage} from "@pages/splash-page/ui/ready-route-page";
 
 const SignUp = lazy(() => import('@pages/signup/signup'))
 const SignIn = lazy(() => import('@pages/signin/signin'))
@@ -35,6 +36,14 @@ export const AppRoutes = () => {
                         element={
                             <React.Suspense fallback={<GlobalPreloader />}>
                                 <PasswordRecovery />
+                            </React.Suspense>
+                        }
+                    />
+                    <Route
+                        path={'route/:id'}
+                        element={
+                            <React.Suspense fallback={<GlobalPreloader />}>
+                                <ReadyRoutePage />
                             </React.Suspense>
                         }
                     />

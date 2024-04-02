@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "sideEffects": true,
   "scripts": {
     "start": "cross-env SERVE=true webpack serve --mode development",
     "build": "webpack",

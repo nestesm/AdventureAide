@@ -16,6 +16,7 @@ const SplashPage = () => {
                 </div>
                 <AuthPanel typeOfBlock={'TRY YOURSELF'}/>
             </div>
+            <div className={'h-[100]'}></div>
         </>
     )
 }
