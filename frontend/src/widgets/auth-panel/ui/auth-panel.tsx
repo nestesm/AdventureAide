@@ -16,7 +16,7 @@ export const AuthPanel: React.FC<AuthTypes> = ({typeOfBlock}) => {
 
                     <DefaultInput theme={'Email'}/>
                     <PasswordBlock />
-                    <SubmitButton text={typeOfBlock}/>
+                    <SubmitButton text={typeOfBlock} />
 
                     <a href="/recovery" className={'text-blue-600 hover:text-purple-700 mt-2'}>
                         Forgot password?
