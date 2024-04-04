@@ -4,6 +4,7 @@ from fastapi import (
     status,
 )
 from fastapi.security import OAuth2PasswordBearer
+from fastapi.responses import JSONResponse
 from jose import (
     JWTError,
     jwt,
@@ -14,40 +15,42 @@ from datetime import (
     timedelta,
 )
 
-from motor.motor_asyncio import AsyncIOMotorClient, AsyncIOMotorCollection
-
-from passlib.hash import bcrypt
+from passlib.hash import argon2
 from pydantic import ValidationError
-from bson import ObjectId
 
 from api import models
-from api.services.user import UserService
+from api.services.user import user_service
 from config import settings as global_settings
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl='/auth/sign-in/')
 
-def get_current_user(token: str = Depends(oauth2_scheme)):
-    return AuthService.verify_token(token)
+
+async def get_current_user(token: str = Depends(oauth2_scheme)) ->models.Token:
+    user_data = AuthService.verify_token(token)  
+    return user_service.get('email', user_data.email)
 
 class AuthService:
 
     @classmethod
     def varify_password(cls, password: str, hash: str) -> bool:
-        return bcrypt.verify(password, hash)
+        return argon2.verify(password, hash)
 
     @classmethod
     def hash_password(cls, password: str) -> str:
-        return bcrypt.hash(password)
+        return argon2.hash(password)
     
     @classmethod
-    def create_token(cls, user: models.UserSchemas) -> str:
+    def create_token(cls, user: models.User) -> str:
         now = datetime.utcnow()
+        
+        token_data = models.TokenData(**user.dict())
+        
         payload = {
             'iat': now,
             'nbf': now,
             'exp': now + timedelta(seconds=global_settings.jwt_expires_s),
             'sub': str(user.id),
-            'user': user.dict(),
+            'user': token_data.dict(),
         }
         token = jwt.encode(
             payload,
@@ -57,7 +60,7 @@ class AuthService:
         return models.Token(access_token=token)
         
     @classmethod
-    def verify_token(cls, token: str) -> models.UserSchemas:
+    def verify_token(cls, token: str) -> models.User:
         exception = HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail='Could not validate credentials',
@@ -75,24 +78,42 @@ class AuthService:
         user_data = payload.get('user')
 
         try:
-            user = models.UserSchemas.parse_obj(user_data)
+            user = models.TokenData.parse_obj(user_data)
+            
         except ValidationError:
             raise exception from None
 
         return user
 
-    async def register_user(self, data: models.UserCreate) ->models.Token:  
-        result = await UserService.create(data.dict())
-        user = models.UserInDB(**data.dict(), id=str(result.inserted_id))
+    async def register_user(self, data: models.User) ->models.Token:  
+        exception = HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail='Incorrect data for save',
+            headers={'WWW-Authenticate': 'Bearer'},
+        )
+        
+        user = await user_service.get('email', data.email)
+        
+        if user:
+            raise exception
+        
+        data.password = self.hash_password(data.password)
+        
+        result = await user_service.create(data.dict())
+        if not result:
+            raise exception
+        
+        user = models.UserInDB(**data.dict(), id=result['id'])
         return self.create_token(user)
-    
+
+         
     async def authenticate_user(self, email: str, password: str) -> models.Token:
         exception = HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail='Incorrect email or password',
             headers={'WWW-Authenticate': 'Bearer'},
         )
-        user = await UserService.get("email", email)
+        user = await user_service.get('email', email)
        
         if not user:
             raise exception
@@ -101,3 +122,4 @@ class AuthService:
             raise exception
         
         return self.create_token(user)
+

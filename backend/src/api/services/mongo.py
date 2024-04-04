@@ -6,7 +6,7 @@ from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 
 from config import settings
-from api.models import MongoModel
+from api.models.mongo import MongoModel
 
 class MongoService:
     def __init__(self) -> None:
@@ -32,7 +32,10 @@ class MongoService:
     
     async def get(self, collection: str, field: str, value: str, model: MongoModel ) -> Optional[MongoModel]:
         result = await self.client[self.name][collection].find_one({f"{field}": value})
-        return model(**result)
+        if result:
+            return model(**result)
+        else:
+            return None
     
 
 

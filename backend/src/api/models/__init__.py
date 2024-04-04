@@ -1,11 +1,16 @@
 from .auth import (
     Token,
-    UserSchemas,
+    TokenData,
+
+)
+
+from .user import (
+    User,
+    UserLogin,
+    UserInDB,
     UserCreate,
-    UserUpdate,
-    UserInDB
 )
 
 from .mongo import (
-    MongoModel
+    MongoModel,
 )

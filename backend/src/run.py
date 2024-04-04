@@ -21,7 +21,7 @@ async def lifespan(app: FastAPI):
     try:
         yield
     finally:
-        db_mongo.close_mongo_connection()
+        await db_mongo.close_mongo_connection()
         app.state.logger.info("End")
         
         

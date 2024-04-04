@@ -14,7 +14,8 @@ class BaseService(ABC):
         pass
 
     async def get(self, field: str , value: str):
-        return await db_mongo.get(self.collection, field, value, self.model_cls)
+        result = await db_mongo.get(self.collection, field, value, self.model_cls)
+        return result
 
     async def get_all(self, model):
         return await db_mongo.get_all(self.collection, model_cls=model)

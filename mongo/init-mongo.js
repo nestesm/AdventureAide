@@ -6,3 +6,5 @@ db.createCollection('points');
 db.createCollection('bookings');
 db.createCollection('activities');
 db.createCollection('reviews');
+
+
