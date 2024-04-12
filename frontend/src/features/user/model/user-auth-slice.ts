@@ -4,6 +4,7 @@ import {AxiosError} from "axios";
 
 interface userAuthState {
     userName: string,
+    userPassword: string,
     userAccessToken: string,
     loading: boolean,
     isError: boolean,
@@ -12,6 +13,7 @@ interface userAuthState {
 
 export const user: userAuthState = {
     userName: null,
+    userPassword: null,
     userAccessToken: null,
     loading: false,
     isError: false,
@@ -22,7 +24,15 @@ const userAuthSlice = createSlice({
     name: 'userAuth',
     initialState: user,
     reducers: {
-
+        setPassword: (state, action) => {
+            state.userPassword = action.payload;
+        },
+        setUserName: (state, action) => {
+            state.userName = action.payload;
+        },
+        setUserToken: (state, action) => {
+            state.userAccessToken = action.payload
+        }
     },
     extraReducers: (builder) => {
         builder
@@ -42,3 +52,7 @@ const userAuthSlice = createSlice({
             })
     }
 })
+
+export const {setPassword, setUserName, setUserToken} = userAuthSlice.actions;
+
+export default userAuthSlice.reducer;
