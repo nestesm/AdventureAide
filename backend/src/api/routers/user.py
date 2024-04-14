@@ -10,13 +10,15 @@ from api.services.auth import (
 from api import models
 
 router = APIRouter(
-    prefix='/users',
-    tags=['users'],
+    prefix='/user',
+    tags=['user'],
 )
 
 @router.get(
-    '/user',
+    '/profile',
     response_model=models.User,
 )
 async def get_user(user = Depends(get_current_user)):
     return await user
+
+
