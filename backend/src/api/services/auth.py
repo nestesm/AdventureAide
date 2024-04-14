@@ -4,7 +4,6 @@ from fastapi import (
     status,
 )
 from fastapi.security import OAuth2PasswordBearer
-from fastapi.responses import JSONResponse
 from jose import (
     JWTError,
     jwt,

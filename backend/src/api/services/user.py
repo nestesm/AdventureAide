@@ -1,5 +1,4 @@
 from fastapi.responses import JSONResponse
-from fastapi import status
 
 from api.services.mongo import db_mongo
 from api.services.base import BaseService

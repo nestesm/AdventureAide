@@ -15,6 +15,7 @@ class Settings(BaseSettings):
     jwt_secret: str = os.getenv("JWT_SECRET", "")
     jwt_algorithm: str = 'HS256'
     jwt_expires_s: int = 3600
+    openai_api_key: str = os.getenv("OPEN", "")
 
 
 settings = Settings()

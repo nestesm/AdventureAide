@@ -1,0 +1,57 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - "main"
+
+jobs:
+  build: 
+    runs-on: ubuntu-latest
+    env:
+      PYTHONDONTWRITEBYTECODE: 1
+      PYTHONUNBUFFERED: 1
+      ENVIRONMENT: test
+      TESTING: 0
+      UP: up
+      DOWN: down
+      WEB_SERVER: web_server
+      MONGO_HOST: mongodb
+      MONGO_PORT: 27017
+      MONGO_USER: travel
+      MONGO_PASS: journey
+      MONGO_DB: trip
+      MONGO_COLLECTIONS: users,routes,points,bookings,activities,reviews 
+      MONGO_TEST_DB: farmland
+      MONGO_URL: mongodb://travel:journey@mongodb:27017/?retryWrites=true&w=majority
+
+    services:
+      mongodb:
+        image: mongo:latest
+        env:
+          MONGO_INITDB_DATABASE: trip
+          MONGO_INITDB_ROOT_USERNAME: travel
+          MONGO_INITDB_ROOT_PASSWORD: journey
+        ports:
+          - 27017:27017
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python 3.11.5
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.11.5
+      - name: Install dependencies
+        run: |
+          pip3 install -r requirements.txt
+      - name: Lint with flake8
+        run: |
+          # stop the build if there are Python syntax errors or undefined names
+          flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+          # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
+          flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+      - name: Test with pytest
+        run: |
+          python3 -m pytest
+
