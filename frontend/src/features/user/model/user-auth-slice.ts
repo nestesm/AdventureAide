@@ -1,6 +1,5 @@
 import {createSlice} from "@reduxjs/toolkit";
 import {authLogin} from "@features/user/api/user-auth-thunks";
-import {AxiosError} from "axios";
 
 interface userAuthState {
     userName: string,
@@ -26,9 +25,11 @@ const userAuthSlice = createSlice({
     reducers: {
         setPassword: (state, action) => {
             state.userPassword = action.payload;
+            state.isError = false
         },
         setUserName: (state, action) => {
             state.userName = action.payload;
+            state.isError = false
         },
         setUserToken: (state, action) => {
             state.userAccessToken = action.payload
@@ -39,20 +40,30 @@ const userAuthSlice = createSlice({
             .addCase(authLogin.pending, (state) => {
                 state.loading = true;
                 state.isError = false;
+                alert('pending')
             })
             .addCase(authLogin.fulfilled, (state, action) => {
                 state.loading = false;
                 state.userName = action.payload.name;
                 state.userAccessToken = action.payload.token;
+                alert('success'+ action.payload)
+
             })
             .addCase(authLogin.rejected, (state, action) => {
                 state.loading = false;
                 state.isError = true;
-                state.errorMessage = (action.payload as AxiosError).message ?? 'unknown error';
+                //state.errorMessage = (action.payload as AxiosError).message ?? 'unknown error';
+                alert('error'+ action.payload)
             })
     }
 })
 
-export const {setPassword, setUserName, setUserToken} = userAuthSlice.actions;
+export const {setPassword,
+    setUserName,
+    setUserToken,
+} = userAuthSlice.actions;
 
+export const {
+
+} = userAuthSlice.caseReducers
 export default userAuthSlice.reducer;

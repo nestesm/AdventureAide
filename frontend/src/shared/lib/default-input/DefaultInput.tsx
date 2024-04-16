@@ -1,12 +1,12 @@
 import React from "react";
-import {useDispatch} from "react-redux";
 import {setUserName} from "@features/user/model/user-auth-slice";
+import {useAppDispatch} from "@features";
 
 interface Props {
     theme: 'Email' | string
 }
 export const DefaultInput: React.FC<Props> = ({theme}) => {
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
 
     const info  = theme === "Email" ? "email" : 'text'
 
@@ -16,7 +16,11 @@ export const DefaultInput: React.FC<Props> = ({theme}) => {
                required
                placeholder={theme}
                type={info}
-               onChange={(e) => info == 'email' ?? dispatch(setUserName(e.target.value))}
+               onChange={(e) => {
+                   if (info == 'email') {
+                       dispatch(setUserName(e.target.value))
+                   }
+               }}
         />
     )
 }
