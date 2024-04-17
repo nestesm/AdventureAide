@@ -1,3 +1,5 @@
 export function PasswordCheck(password: string): boolean | string {
-    return password.length >= 8;
+    return password.length >= 6;
 }
+
+

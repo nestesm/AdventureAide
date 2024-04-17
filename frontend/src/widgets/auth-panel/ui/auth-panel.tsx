@@ -5,8 +5,12 @@ import {PasswordBlock} from "@shared/lib/password-block/PasswordBlock";
 import {SubmitButton} from "@shared/lib/submit-button/submitButton";
 import {AuthBlock} from "@shared/lib/auth-block/auth-block";
 import {AuthTypes} from "@widgets/auth-panel/lib/interfaces/interfaces";
+import {AuthErrorMessage} from "@shared/lib/auth-error-message/auth-error-message";
+import {useSelector} from "react-redux";
 
 export const AuthPanel: React.FC<AuthTypes> = ({typeOfBlock}) => {
+
+    const isAuthError = useSelector((state: any) => state.user.isError)
 
     switch (typeOfBlock){
         case "SIGN IN":
@@ -16,7 +20,11 @@ export const AuthPanel: React.FC<AuthTypes> = ({typeOfBlock}) => {
 
                     <DefaultInput theme={'Email'}/>
                     <PasswordBlock />
+
+                    {isAuthError && <AuthErrorMessage/>}
+
                     <SubmitButton text={typeOfBlock} />
+
 
                     <a href="/recovery" className={'text-blue-600 hover:text-purple-700 mt-2'}>
                         Forgot password?
@@ -35,7 +43,15 @@ export const AuthPanel: React.FC<AuthTypes> = ({typeOfBlock}) => {
                     <DefaultInput theme={'Email'}/>
                     <DefaultInput theme={'Full name'} />
                     <PasswordBlock />
+                    <select id="countries_disabled"
+                            className="input-default">
+                        <option selected>Choose a gender</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="other">Other</option>
+                    </select>
                     <SubmitButton text={typeOfBlock}/>
+
 
                     <a href="/signin" className={'text-blue-600 hover:text-purple-700 mt-2'}>
                         Already have an account?

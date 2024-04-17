@@ -1,24 +1,43 @@
 import React from "react";
-import {setUserName} from "@features/user/model/user-auth-slice";
+import {setUserMail} from "@features/user/model/user-auth-slice";
 import {useAppDispatch} from "@features";
 
 interface Props {
-    theme: 'Email' | string
+    theme: 'Email' | 'Full name' | string
 }
 export const DefaultInput: React.FC<Props> = ({theme}) => {
     const dispatch = useAppDispatch()
 
-    const info  = theme === "Email" ? "email" : 'text'
+    let inputType = '';
+
+    switch (theme){
+        case "Email":
+            inputType = 'email'
+            break;
+        case "Full name":
+            inputType = theme
+            break;
+        case "From" || "To":
+            inputType = "text"
+            break;
+        case 'date':
+            inputType = theme
+            break;
+        default:
+            inputType = 'text'
+    }
 
 
     return (
         <input className={'input-default'}
                required
                placeholder={theme}
-               type={info}
+               type={inputType}
                onChange={(e) => {
-                   if (info == 'email') {
-                       dispatch(setUserName(e.target.value))
+                   if (inputType == 'email') {
+                       dispatch(setUserMail(e.target.value))
+                   } else if(inputType == 'Full name'){
+                       // dispatch(setUserName())
                    }
                }}
         />

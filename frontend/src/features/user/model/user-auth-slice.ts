@@ -2,6 +2,7 @@ import {createSlice} from "@reduxjs/toolkit";
 import {authLogin} from "@features/user/api/user-auth-thunks";
 
 interface userAuthState {
+    userMail: string,
     userName: string,
     userPassword: string,
     userAccessToken: string,
@@ -11,6 +12,7 @@ interface userAuthState {
 }
 
 export const user: userAuthState = {
+    userMail: null,
     userName: null,
     userPassword: null,
     userAccessToken: null,
@@ -28,12 +30,18 @@ const userAuthSlice = createSlice({
             state.isError = false
         },
         setUserName: (state, action) => {
-            state.userName = action.payload;
+          state.userName = action.payload
+        },
+        setUserMail: (state, action) => {
+            state.userMail = action.payload;
             state.isError = false
         },
         setUserToken: (state, action) => {
             state.userAccessToken = action.payload
-        }
+        },
+        setIsError: (state) => {
+          state.isError = true
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -44,23 +52,22 @@ const userAuthSlice = createSlice({
             })
             .addCase(authLogin.fulfilled, (state, action) => {
                 state.loading = false;
-                state.userName = action.payload.name;
-                state.userAccessToken = action.payload.token;
-                alert('success'+ action.payload)
+                state.userAccessToken = action.payload.access_token;
+                alert('success'+ action.payload.access_token)
 
             })
             .addCase(authLogin.rejected, (state, action) => {
                 state.loading = false;
                 state.isError = true;
-                //state.errorMessage = (action.payload as AxiosError).message ?? 'unknown error';
-                alert('error'+ action.payload)
+                alert('rejected'+ JSON.stringify(action.payload))
             })
     }
 })
 
 export const {setPassword,
-    setUserName,
+    setUserMail,
     setUserToken,
+    setIsError,
 } = userAuthSlice.actions;
 
 export const {
