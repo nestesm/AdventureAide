@@ -22,7 +22,7 @@ export const user: userAuthState = {
 }
 
 const userAuthSlice = createSlice({
-    name: 'userAuth',
+    name: 'userLogin',
     initialState: user,
     reducers: {
         setPassword: (state, action) => {
@@ -54,7 +54,6 @@ const userAuthSlice = createSlice({
                 state.loading = false;
                 state.userAccessToken = action.payload.access_token;
                 alert('success'+ action.payload.access_token)
-
             })
             .addCase(authLogin.rejected, (state, action) => {
                 state.loading = false;

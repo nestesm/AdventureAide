@@ -8,8 +8,8 @@ interface s_button {
 
 export const SubmitButton: React.FC<s_button> = ({text}) => {
 
-    const error = useSelector((state: any) => state.user.isError)
-
+    const error = useSelector((state: any) => state.userLogin.isError) ||
+        useSelector((state: any) => state.userRegister.system.isError)
 
     return (
         <button className={'submit-button'}

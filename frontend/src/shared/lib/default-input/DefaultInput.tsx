@@ -1,6 +1,7 @@
 import React from "react";
 import {setUserMail} from "@features/user/model/user-auth-slice";
 import {useAppDispatch} from "@features";
+import {setRegisterMail, setRegisterName} from "@features/user/model/user-register-slice";
 
 interface Props {
     theme: 'Email' | 'Full name' | string
@@ -36,8 +37,9 @@ export const DefaultInput: React.FC<Props> = ({theme}) => {
                onChange={(e) => {
                    if (inputType == 'email') {
                        dispatch(setUserMail(e.target.value))
+                       dispatch(setRegisterMail(e.target.value))
                    } else if(inputType == 'Full name'){
-                       // dispatch(setUserName())
+                       dispatch(setRegisterName(e.target.value))
                    }
                }}
         />

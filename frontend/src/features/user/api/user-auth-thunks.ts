@@ -4,7 +4,7 @@ import {AUTH_URLS} from "@features/user/api/api";
 
 export const authLogin = createAsyncThunk(
     'authLogin',
-    async (data: {username: string, password: string}) => {
+    async (data: {username: any, password: any}) => {
 
             const response = await axios.post(AUTH_URLS.login,
                 {
